@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<!-- Add Modal -->
+<div id="addStudyModalCenter" tabindex="-1" role="dialog" aria-labelledby="addStudyModalCenterTitle" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudyModalLongTitle">Add Study</h5>
+                    <a type="button" class="close" href="/study" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/study/add" th:object="${study}">
+                    <div class="form-group">
+                        <label for="title" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="title" name="title" th:value="*{title}">
+                        <span th:if="${#fields.hasErrors('title')}" th:errorclass="error" th:errors="*{title}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Description:</label>
+                        <input type="text" class="form-control" id="description" name="description" th:value="*{description}">
+                        <span th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}"></span>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-secondary" href="/study" >Close</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

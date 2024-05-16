@@ -1,0 +1,131 @@
+<!-- Add Modal -->
+<div class="modal fade" id="addStudyModalCenter" tabindex="-1" role="dialog" aria-labelledby="addStudyModalCenterTitle" aria-hidden="true">
+    <form method="post" action="/study/add">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudyModalLongTitle">Add Study</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="title" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Description:</label>
+                        <input type="text" class="form-control" id="description" name="description">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateStudyModalCenter" tabindex="-1" role="dialog" aria-labelledby="updateStudyModalCenterTitle" aria-hidden="true">
+    <form action="/study/update" method="post">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateStudyModalLongTitle">Update Study</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="IdEdit" name="Id">
+                    <div class="form-group">
+                        <label for="titleEdit" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="titleEdit" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionEdit" class="col-form-label">Description:</label>
+                        <input type="text" class="form-control" id="descriptionEdit" name="description">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteStudyModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteStudyModalCenterTitle" aria-hidden="true">
+    <form action="/study/delete" method="post">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteStudyModalLongTitle">Delete Study</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="deleteId" name="Id">
+                    <div class="form-group">
+                        <label for="titleEdit" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="deleteTitle" name="title" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionEdit" class="col-form-label">Description:</label>
+                        <input type="text" class="form-control" id="deleteDescription" name="description" readonly>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Supervise Modal -->
+<div class="modal fade" id="superviseStudyModalCenter" tabindex="-1" role="dialog" aria-labelledby="superviseStudyModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="superviseStudyModalCenterTitle">Supervise Study</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/adviser-study/supervise-for-study">
+                    <div class="form-group">
+                        <label for="studyName">Study:</label>
+                        <input type="text" class="form-control" id="studyName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="adviserSelect">Select Adviser:</label>
+                        <select class="form-control" id="adviserSelect" name="adviserId">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="involvedDate">Involved Date:</label>
+                        <input type="date" class="form-control" id="involvedDate" name="involvedDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="performance">Performance:</label>
+                        <input type="number" class="form-control" id="performance" name="performance" min="1" max="10" value="1">
+                    </div>
+                    <input type="hidden" id="studyId" name="studyId">
+                    <button type="submit" class="btn btn-primary">Supervise</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
