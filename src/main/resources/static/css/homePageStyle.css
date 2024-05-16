@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+h5{
+
+    display: flex;
+    justify-content: center;
+}
+
+.card a {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}

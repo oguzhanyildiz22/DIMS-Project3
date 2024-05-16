@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"  />
+    <link th:href="@{css/style.css}" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/main.js" th:src="@{js/study/main.js}"></script>
+    <meta charset="UTF-8">
+    <title>Studies Page</title>
+</head>
+<body>
+<div class="main-div">
+    <h2>Study List</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStudyModalCenter">Add</button>
+    <button type="button" class="btn btn-info" onclick="location.href='/';">Go Back</button>
+    <br><br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">TITLE</th>
+            <th scope="col">DESCRIPTION</th>
+            <th scope="col">OPERATIONS</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c:${studyList}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.title}"></td>
+            <td th:text="${c.description}"></td>
+            <td>
+                <button class="btn btn-warning update-button" data-toggle="modal" data-target="#updateStudyModalCenter" th:id="${c.id}">
+                    <i class="fa-solid fa-pen"></i> Update
+                </button>
+                <button class="btn btn-danger delete-button" data-toggle="modal" data-target="#deleteStudyModalCenter" th:id="${c.id}">
+                    <i class="fa-solid fa-trash"></i> Delete
+                </button>
+                <button class="btn btn-info supervise-button" data-toggle="modal" data-target="#superviseStudyModalCenter" th:id="${c.id}">
+                    Supervise
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modals Containers -->
+<div id="modals-container"></div>
+
+</body>
+</html>
