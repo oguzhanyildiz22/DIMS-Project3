@@ -1,6 +1,6 @@
 <!-- Add Modal -->
 <div class="modal fade" id="addAdviserModalCenter" tabindex="-1" role="dialog" aria-labelledby="addAdviserModalCenterTitle" aria-hidden="true">
-    <form method="post" action="/adviser/add">
+    <form method="post" action="/adviser/add" enctype="multipart/form-data">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -18,6 +18,10 @@
                     <div class="form-group">
                         <label for="department" class="col-form-label">Department:</label>
                         <input type="text" class="form-control" id="department" name="department">
+                    </div>
+                    <div class="form-group">
+                        <label for="picture" class="col-form-label">Image:</label>
+                        <input type="file" class="form-control" id="picture" name="picture" accept="image/png, image/jpeg">
                     </div>
 
                 </div>

@@ -1,7 +1,6 @@
 package com.sau.dims.controller;
 
 import com.sau.dims.model.Adviser;
-import com.sau.dims.model.Study;
 import com.sau.dims.repository.AdviserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -27,7 +33,7 @@ public class AdviserController {
         return "adviser/index";
     }
     @PostMapping("/adviser/add")
-    public String addAdviser(@Valid Adviser adviser, BindingResult result, Model model){
+    public String addAdviser(@Valid Adviser adviser, @RequestParam("picture")MultipartFile file, BindingResult result, Model model){
         if (result.hasErrors()){
             model.addAttribute("adviser",adviser);
             model.addAttribute("error",result.getAllErrors());
@@ -35,6 +41,23 @@ public class AdviserController {
         }
         adviser.setName(convertFirstLetterToUpperCase(adviser.getName()));
         adviser.setDepartment(convertFirstLetterToUpperCase(adviser.getDepartment()));
+
+        String fileName = file.getOriginalFilename();
+        if(fileName.equals("")) {
+                adviser.setImgURL("nophoto.png");
+        } else {
+            // File upload
+            adviser.setImgURL(fileName);
+            String uploadDir = "src/main/resources/static/images/" + fileName;
+            Path uploadPath = Paths.get(uploadDir);
+
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, uploadPath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                System.out.println("File saving error! " + ex.toString());
+            }
+        }
+
 
         adviserRepository.save(adviser);
         return "redirect:/adviser";

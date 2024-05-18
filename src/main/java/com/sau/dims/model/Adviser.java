@@ -27,7 +27,7 @@ public class Adviser {
     @NotBlank(message = "Department can not be null!")
     @Pattern(regexp = "^[a-zA-Z\\s]*$", message = "Department can not contain any non-letter!")
     private String department;
-
+    private String imgURL;
     @JsonIgnore
     @OneToMany(mappedBy = "adviser",
             fetch = FetchType.LAZY,
