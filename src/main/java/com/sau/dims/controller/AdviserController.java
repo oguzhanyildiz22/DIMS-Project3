@@ -1,5 +1,6 @@
 package com.sau.dims.controller;
 
+import com.sau.dims.dto.AdviserDTO;
 import com.sau.dims.model.Adviser;
 import com.sau.dims.repository.AdviserRepository;
 import jakarta.validation.Valid;
@@ -13,10 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -27,41 +31,59 @@ public class AdviserController {
     private AdviserRepository adviserRepository;
 
     @GetMapping("/adviser")
-    public String getAdviser(Model model){
+    public String getAdviser(Model model) throws UnsupportedEncodingException {
         List<Adviser> advisers = adviserRepository.findAllAscById();
-        model.addAttribute("advisers", advisers);
+
+        List<AdviserDTO> adviserDTOs = new ArrayList<>();
+
+        for (Adviser adviser : advisers) {
+            AdviserDTO adviserDTO = new AdviserDTO();
+            adviserDTO.setId(adviser.getId());
+            adviserDTO.setName(adviser.getName());
+            adviserDTO.setDepartment(adviser.getDepartment());
+
+            byte[] encodeBase64 = Base64.getEncoder().encode(adviser.getImgURL());
+            String base64Encoded = new String(encodeBase64, "UTF-8");
+            adviserDTO.setPicture(base64Encoded);
+
+            adviserDTOs.add(adviserDTO);
+        }
+
+
+
+        model.addAttribute("advisers", adviserDTOs);
         return "adviser/index";
     }
-    @PostMapping("/adviser/add")
-    public String addAdviser(@Valid Adviser adviser, @RequestParam("picture")MultipartFile file, BindingResult result, Model model){
-        if (result.hasErrors()){
-            model.addAttribute("adviser",adviser);
-            model.addAttribute("error",result.getAllErrors());
-            return "/adviser/add";
-        }
-        adviser.setName(convertFirstLetterToUpperCase(adviser.getName()));
-        adviser.setDepartment(convertFirstLetterToUpperCase(adviser.getDepartment()));
-
-        String fileName = file.getOriginalFilename();
-        if(fileName.equals("")) {
-                adviser.setImgURL("nophoto.png");
-        } else {
-            // File upload
-            adviser.setImgURL(fileName);
-            String uploadDir = "src/main/resources/static/images/" + fileName;
-            Path uploadPath = Paths.get(uploadDir);
-
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, uploadPath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ex) {
-                System.out.println("File saving error! " + ex.toString());
-            }
-        }
-
-
-        adviserRepository.save(adviser);
-        return "redirect:/adviser";
-    }
+//    @PostMapping("/adviser/add")
+//    public String addAdviser(@Valid Adviser adviser, @RequestParam("picture")MultipartFile file, BindingResult result, Model model){
+//        if (result.hasErrors()){
+//            model.addAttribute("adviser",adviser);
+//            model.addAttribute("error",result.getAllErrors());
+//            return "/adviser/add";
+//        }
+//        adviser.setName(convertFirstLetterToUpperCase(adviser.getName()));
+//        adviser.setDepartment(convertFirstLetterToUpperCase(adviser.getDepartment()));
+//
+//        String fileName = file.getOriginalFilename();
+//        if(fileName.equals("")) {
+//                adviser.setImgURL(new byte[]);
+//        } else {
+//            // File upload
+//            adviser.setImgURL(fileName);
+//            String uploadDir = "src/main/resources/static/images/" + fileName;
+//            Path uploadPath = Paths.get(uploadDir);
+//
+//            try (InputStream inputStream = file.getInputStream()) {
+//                Files.copy(inputStream, uploadPath, StandardCopyOption.REPLACE_EXISTING);
+//            } catch (IOException ex) {
+//                System.out.println("File saving error! " + ex.toString());
+//            }
+//        }
+//
+//
+//        adviserRepository.save(adviser);
+//        return "redirect:/adviser";
+//    }
     @GetMapping("/adviser/update/{id}")
     @ResponseBody
     public Adviser updateAdviser(@PathVariable("id") int id){

@@ -21,13 +21,30 @@ public class Adviser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @NotBlank(message = "Adviser's name can not be null!")
     @Pattern(regexp = "^[a-zA-Z\\s]*$", message = "Name can not contain any non-letter!")
     private String name;
+
     @NotBlank(message = "Department can not be null!")
     @Pattern(regexp = "^[a-zA-Z\\s]*$", message = "Department can not contain any non-letter!")
     private String department;
-    private String imgURL;
+
+    @Lob
+    private byte[] imgURL;
+
+    @Column(length = 16)
+    private String username;
+
+    @Column(nullable = false, length = 255)
+    private String password;
+
+    @Column(length = 16)
+    private String surname;
+
+    @Column(nullable = false, length = 16)
+    private String role;
+
     @JsonIgnore
     @OneToMany(mappedBy = "adviser",
             fetch = FetchType.LAZY,

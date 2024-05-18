@@ -3,6 +3,7 @@ package com.sau.dims.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -14,5 +15,6 @@ public class UserDTO {
     private String name;
     private String surname;
     private String role;
-    private String picture;
+    private MultipartFile picture;
+    private String department;
 }

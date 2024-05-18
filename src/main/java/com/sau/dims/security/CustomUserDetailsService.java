@@ -1,7 +1,7 @@
 package com.sau.dims.security;
 
-import com.sau.dims.model.User;
-import com.sau.dims.repository.UserRepository;
+import com.sau.dims.model.Adviser;
+import com.sau.dims.repository.AdviserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,16 +12,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final AdviserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("user not found!"));
+        Adviser user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("user not found!"));
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .roles(user.getRole())
-                .accountLocked(user.isLocked())
+                .accountLocked(false)
                 .disabled(false)
                 .credentialsExpired(false)
                 .build();

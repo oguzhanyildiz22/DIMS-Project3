@@ -3,10 +3,8 @@ package com.sau.dims.security;
 import com.sau.dims.dto.AuthResponseDTO;
 import com.sau.dims.dto.LoginDTO;
 import com.sau.dims.dto.UserDTO;
-import com.sau.dims.model.User;
-import com.sau.dims.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.sau.dims.model.Adviser;
+import com.sau.dims.repository.AdviserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,27 +19,29 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthService {
 
-
-
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
+    private final AdviserRepository adviserRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtGenerator jwtGenerator;
 
-    public void register(UserDTO userDTO) throws IOException {
+    public String  register(UserDTO userDTO) throws IOException {
 
-//        if (userRepository.existsByUsername(userDTO.getUsername())){
-//           // return "Username is already in use";
-//        }
+        if (adviserRepository.existsByUsername(userDTO.getUsername())){
+           return "Username is already in use";
+        }
 
-        User user = new User();
+        Adviser user = new Adviser();
         user.setUsername(userDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
         user.setRole(userDTO.getRole());
+        user.setDepartment(userDTO.getDepartment());
+        user.setImgURL(userDTO.getPicture().getBytes());
 
-        userRepository.save(user);
+        adviserRepository.save(user);
+
+        return "success";
 
     }
 
