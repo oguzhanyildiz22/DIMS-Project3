@@ -29,7 +29,7 @@
         <tbody>
         <tr th:each="c:${advisers}">
             <td th:text="${c.id}"></td>
-            <td><img style="width: 1.5cm;" th:src="@{'/images/' + ${c.imgURL}}"/></td>
+            <td><img th:src="@{'data:image/jpeg;base64,'+${picture}}" /></td>
             <td th:text="${c.name}"></td>
             <td th:text="${c.department}"></td>
             <td>
