@@ -5,6 +5,8 @@ import com.sau.dims.dto.LoginDTO;
 import com.sau.dims.dto.UserDTO;
 import com.sau.dims.model.User;
 import com.sau.dims.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +28,11 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtGenerator jwtGenerator;
 
-    public String register(UserDTO userDTO) {
+    public void register(UserDTO userDTO) throws IOException {
 
-        if (userRepository.existsByUsername(userDTO.getUsername())){
-            return "Username is already in use";
-        }
+//        if (userRepository.existsByUsername(userDTO.getUsername())){
+//           // return "Username is already in use";
+//        }
 
         User user = new User();
         user.setUsername(userDTO.getUsername());
@@ -39,7 +43,6 @@ public class AuthService {
 
         userRepository.save(user);
 
-        return "Registration Successful";
     }
 
     public AuthResponseDTO login(LoginDTO loginDTO) {

@@ -8,7 +8,18 @@ public class HomeController {
 
     @GetMapping("/")
     public String getHome(){
+        return "auth/login";
+    }
+
+    @GetMapping("/index")
+    public String getIndex(){
         return "index";
+    }
+
+
+    @GetMapping("/sign-up")
+    public String getSignUp(){
+        return "auth/signUpPage";
     }
 
     @GetMapping("/about")
