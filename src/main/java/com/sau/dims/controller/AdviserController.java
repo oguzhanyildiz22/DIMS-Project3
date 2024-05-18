@@ -9,16 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -31,7 +27,7 @@ public class AdviserController {
     private AdviserRepository adviserRepository;
 
     @GetMapping("/adviser")
-    public String getAdviser(Model model) throws UnsupportedEncodingException {
+    public String getAdviser(Model model) {
         List<Adviser> advisers = adviserRepository.findAllAscById();
 
         List<AdviserDTO> adviserDTOs = new ArrayList<>();
@@ -42,9 +38,8 @@ public class AdviserController {
             adviserDTO.setName(adviser.getName());
             adviserDTO.setDepartment(adviser.getDepartment());
 
-            byte[] encodeBase64 = Base64.getEncoder().encode(adviser.getImgURL());
-            String base64Encoded = new String(encodeBase64, "UTF-8");
-            adviserDTO.setPicture(base64Encoded);
+            String encodedImage = Base64.getEncoder().encodeToString(adviser.getImgURL());
+            adviserDTO.setPicture(encodedImage);
 
             adviserDTOs.add(adviserDTO);
         }
