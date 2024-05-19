@@ -25,7 +25,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public String  register(@Valid @ModelAttribute("user") UserDTO user, BindingResult result, Model model) throws IOException {
-        System.out.println("func");
         if(result.hasErrors()){
             model.addAttribute("user",user);
             model.addAttribute("error",result.getAllErrors());
@@ -33,11 +32,8 @@ public class AuthController {
         }
 
         boolean isRegist = authService.register(user);
-        System.out.println(isRegist);
         if(!isRegist){
-            System.out.println("hataaaa");
             ObjectError error = new ObjectError("globalError", "Username already exist!");
-//            model.addAttribute("error",error);
             model.addAttribute("globalError","Username already exist!");
             result.addError(error);
             return "/auth/signupPage";

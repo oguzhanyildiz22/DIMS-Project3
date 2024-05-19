@@ -28,7 +28,6 @@ public class AuthService {
         if (adviserRepository.existsByUsername(userDTO.getUsername())){
            return false;
         }
-        System.out.println("regist oldu");
         Adviser user = new Adviser();
         user.setUsername(userDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
