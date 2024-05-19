@@ -24,12 +24,10 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtGenerator jwtGenerator;
 
-    public String  register(UserDTO userDTO) throws IOException {
-
+    public boolean  register(UserDTO userDTO) throws IOException {
         if (adviserRepository.existsByUsername(userDTO.getUsername())){
-           return "Username is already in use";
+           return false;
         }
-
         Adviser user = new Adviser();
         user.setUsername(userDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -41,7 +39,7 @@ public class AuthService {
 
         adviserRepository.save(user);
 
-        return "success";
+        return true;
 
     }
 

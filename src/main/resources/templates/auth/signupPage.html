@@ -9,29 +9,45 @@
 <body>
 <fieldset class="scheduler-border">
     <legend class="scheduler-border">Sign up</legend>
-    <form th:method="post" th:action="@{/api/auth/register}" enctype="multipart/form-data">
+    <form th:method="post" th:action="@{/api/auth/register}" th:object="${user}" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter Name">
+            <input type="text" class="form-control" id="name" name="name" th:value="*{name}" aria-describedby="nameHelp"
+                   placeholder="Enter Name">
+            <div th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"
+                  class="alert alert-danger" role="alert"></div>
         </div>
         <div class="form-group">
             <label for="surname">Surname</label>
-            <input type="text" class="form-control" id="surname" name="surname" aria-describedby="surnameHelp" placeholder="Enter Surname">
+            <input type="text" class="form-control" id="surname" name="surname" th:value="*{surname}" aria-describedby="surnameHelp"
+                   placeholder="Enter Surname">
+            <div th:if="${#fields.hasErrors('surname')}" th:errorclass="error" th:errors="*{surname}"
+                  class="alert alert-danger" role="alert"></div>
         </div>
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+            <input type="text" class="form-control" id="username" name="username" th:value="*{username}"  placeholder="Enter username">
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert alert-danger" role="alert"></div>
+            <div th:if="${globalError != null}" class="alert alert-danger" role="alert">
+                <span th:text="${globalError}" />
+            </div>
         </div>
         <div class="form-group">
             <label for="department">Department</label>
-            <input type="text" class="form-control" id="department" name="department" placeholder="Enter department">
+            <input type="text" class="form-control" id="department" name="department" th:value="*{department}" placeholder="Enter department">
+            <div th:if="${#fields.hasErrors('department')}" th:errorclass="error" th:errors="*{department}"
+                  class="alert alert-danger" role="alert"></div>
+
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+            <input type="password" class="form-control" id="password" name="password"  placeholder="Enter Password">
+            <div th:if="${#fields.hasErrors('password')}" th:errorclass="error" th:errors="*{password}"
+                  class="alert alert-danger" role="alert"></div>
+
         </div>
         <div>
-            <label class="form-label" for="picture">Default file input example</label>
+            <label class="form-label" for="picture">Image</label>
             <input type="file" class="form-control" id="picture" name="picture" accept="image/png, image/jpeg" />
         </div>
         <div>
@@ -41,6 +57,7 @@
                 <option value="USER">USER</option>
             </select>
         </div>
+
         <button type="submit" class="btn btn-primary mt-4">Submit</button>
     </form>
 </fieldset>

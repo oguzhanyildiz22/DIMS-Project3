@@ -1,6 +1,7 @@
 package com.sau.dims.controller;
 
 import com.sau.dims.dto.AdviserDTO;
+import com.sau.dims.dto.AdviserUpdateDTO;
 import com.sau.dims.model.Adviser;
 import com.sau.dims.repository.AdviserRepository;
 import jakarta.validation.Valid;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -44,41 +45,9 @@ public class AdviserController {
             adviserDTOs.add(adviserDTO);
         }
 
-
-
         model.addAttribute("advisers", adviserDTOs);
         return "adviser/index";
     }
-//    @PostMapping("/adviser/add")
-//    public String addAdviser(@Valid Adviser adviser, @RequestParam("picture")MultipartFile file, BindingResult result, Model model){
-//        if (result.hasErrors()){
-//            model.addAttribute("adviser",adviser);
-//            model.addAttribute("error",result.getAllErrors());
-//            return "/adviser/add";
-//        }
-//        adviser.setName(convertFirstLetterToUpperCase(adviser.getName()));
-//        adviser.setDepartment(convertFirstLetterToUpperCase(adviser.getDepartment()));
-//
-//        String fileName = file.getOriginalFilename();
-//        if(fileName.equals("")) {
-//                adviser.setImgURL(new byte[]);
-//        } else {
-//            // File upload
-//            adviser.setImgURL(fileName);
-//            String uploadDir = "src/main/resources/static/images/" + fileName;
-//            Path uploadPath = Paths.get(uploadDir);
-//
-//            try (InputStream inputStream = file.getInputStream()) {
-//                Files.copy(inputStream, uploadPath, StandardCopyOption.REPLACE_EXISTING);
-//            } catch (IOException ex) {
-//                System.out.println("File saving error! " + ex.toString());
-//            }
-//        }
-//
-//
-//        adviserRepository.save(adviser);
-//        return "redirect:/adviser";
-//    }
     @GetMapping("/adviser/update/{id}")
     @ResponseBody
     public Adviser updateAdviser(@PathVariable("id") int id){
@@ -87,12 +56,15 @@ public class AdviserController {
         );
     }
     @PostMapping("/adviser/update")
-    public String updateAdviser(@Valid Adviser adviser, BindingResult result){
+    public String updateAdviser(@Valid AdviserUpdateDTO adviserDto, BindingResult result) throws IOException {
         if (result.hasErrors()){
             return "redirect:/adviser";
         }
-        adviser.setName(convertFirstLetterToUpperCase(adviser.getName()));
-        adviser.setDepartment(convertFirstLetterToUpperCase(adviser.getDepartment()));
+        Adviser adviser = adviserRepository.findById(adviserDto.getId()).get();
+        adviser.setName(convertFirstLetterToUpperCase(adviserDto.getName()));
+        adviser.setDepartment(convertFirstLetterToUpperCase(adviserDto.getDepartment()));
+        if(!adviserDto.getPicture().isEmpty())
+            adviser.setImgURL(adviserDto.getPicture().getBytes());
 
         adviserRepository.save(adviser);
         return "redirect:/adviser";
