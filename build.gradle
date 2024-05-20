@@ -23,13 +23,18 @@ dependencies {
     api libs.org.projectlombok.lombok
     api libs.org.springframework.boot.spring.boot.starter.thymeleaf
     api libs.org.springframework.boot.spring.boot.starter.security
-    api libs.io.jsonwebtoken.jjwt
-    api libs.javax.xml.bind.jaxb.api
+//    api libs.io.jsonwebtoken.jjwt
+//    api libs.javax.xml.bind.jaxb.api
     runtimeOnly libs.org.springframework.boot.spring.boot.devtools
     runtimeOnly libs.org.postgresql.postgresql
     testImplementation libs.org.springframework.boot.spring.boot.starter.test
     compileOnly(libs.org.projectlombok.lombok)
     annotationProcessor(libs.org.projectlombok.lombok)
+
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
 }
 
 group = 'com.sau'
