@@ -35,9 +35,11 @@ public class SecurityConfig {
                         .requestMatchers("/logout").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/api/**").permitAll())
+                .authorizeHttpRequests(x-> x.requestMatchers("/adviserstudy").hasRole("ADMIN"))
                 .authorizeHttpRequests(x-> x.anyRequest().authenticated())
                 .sessionManagement(x-> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
+                .logout(x-> x.deleteCookies("Authorization"))
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

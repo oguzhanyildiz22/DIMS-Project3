@@ -1,9 +1,11 @@
 package com.sau.dims.controller;
 
 import com.sau.dims.dto.UserDTO;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HomeController {
@@ -35,5 +37,10 @@ public class HomeController {
         return "about/index";
     }
 
+    @GetMapping("/logout")
+    @ResponseBody
+    public String logout(HttpServletResponse response){
+        return "logout";
+    }
 
 }

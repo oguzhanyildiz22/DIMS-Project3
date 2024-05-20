@@ -27,10 +27,19 @@ public class AuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-    final String header = request.getHeader("Authorization");
-    final String username;
-    final String token;
+    String header = request.getHeader("Authorization");
+    String username;
+    String token;
     System.out.printf("header: %s\n",header);
+
+    if(request.getCookies() != null){
+        for (var cookie : request.getCookies()){
+            if(cookie.getName().equals("Authorization")){
+                header = "Bearer " + cookie.getValue();
+            }
+        }
+    }
+
     if(header == null || !header.startsWith("Bearer ")){
         filterChain.doFilter(request,response);
         return;
