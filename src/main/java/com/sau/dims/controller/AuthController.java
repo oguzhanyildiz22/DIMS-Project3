@@ -8,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,11 @@ public class AuthController {
         response.sendRedirect("/index");
     }
 
+    @GetMapping("/isAdmin")
+    public ResponseEntity<Boolean> isAdmin(@CookieValue(value = "Authorization") String token) {
+        boolean isAdmin = authService.isAdmin(token);
+        return ResponseEntity.ok(isAdmin);
+    }
 
 
 }

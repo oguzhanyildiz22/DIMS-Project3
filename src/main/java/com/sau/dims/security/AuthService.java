@@ -5,6 +5,7 @@ import com.sau.dims.dto.LoginDTO;
 import com.sau.dims.dto.UserDTO;
 import com.sau.dims.model.Adviser;
 import com.sau.dims.repository.AdviserRepository;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,5 +55,19 @@ public class AuthService {
         authResponseDTO.setAccessToken(token);
 
         return authResponseDTO;
+    }
+
+    public boolean isAdmin(String token){
+        if(jwtGenerator.validateToken(token)){
+            Claims claims = jwtGenerator.parseJWT(token);
+            String role = (String) claims.get("role");
+            if (role.equals("[ROLE_ADMIN]")){
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 }
