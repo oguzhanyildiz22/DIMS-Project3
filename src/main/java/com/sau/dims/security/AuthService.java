@@ -1,6 +1,5 @@
 package com.sau.dims.security;
 
-import com.sau.dims.dto.AuthResponseDTO;
 import com.sau.dims.dto.LoginDTO;
 import com.sau.dims.dto.UserDTO;
 import com.sau.dims.model.Adviser;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,16 +41,14 @@ public class AuthService {
 
     }
 
-    public AuthResponseDTO login(LoginDTO loginDTO) {
+    public String login(LoginDTO request) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                request.getUsername(),
+                request.getPassword()));
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
+        System.out.printf("token: %s\n",token);
 
-        AuthResponseDTO authResponseDTO = new AuthResponseDTO();
-        authResponseDTO.setAccessToken(token);
-
-        return authResponseDTO;
+        return token;
     }
 }

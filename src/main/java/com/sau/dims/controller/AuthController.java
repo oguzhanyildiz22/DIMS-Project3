@@ -1,10 +1,10 @@
 package com.sau.dims.controller;
 
-import com.sau.dims.dto.AuthResponseDTO;
 import com.sau.dims.dto.LoginDTO;
 import com.sau.dims.dto.UserDTO;
 import com.sau.dims.security.AuthService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 
@@ -45,13 +48,15 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseBody
-    public void login(@ModelAttribute LoginDTO loginDTO, HttpServletResponse response) throws IOException {
-        AuthResponseDTO authResponseDTO = authService.login(loginDTO);
-        Cookie authCookie = new Cookie("Authorization", authResponseDTO.getAccessToken());
-        authCookie.setHttpOnly(true);
-        authCookie.setPath("/");
-        response.addCookie(authCookie);
+    public void login(@ModelAttribute LoginDTO loginDTO,
+                      HttpServletResponse response,
+                      HttpServletRequest request) throws IOException {
+        Cookie cookie = new Cookie("Authorization", authService.login(loginDTO));
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         response.sendRedirect("/index");
+//        return "redirect:/index";
     }
 
 

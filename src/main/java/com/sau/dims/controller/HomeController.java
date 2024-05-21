@@ -35,5 +35,9 @@ public class HomeController {
         return "about/index";
     }
 
+    @GetMapping("/logout")
+    public String logout(){
+        return "auth/login";
+    }
 
 }
